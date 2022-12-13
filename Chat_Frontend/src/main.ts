@@ -11,7 +11,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 
 const socket = io("http://localhost:4000", {
-  // path: ""
+  // autoConnect:false
 })
 
 let messages = document.getElementById('messages') as HTMLUListElement;
