@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { useUserContext } from "../context/user.context"
 
 
@@ -15,6 +16,7 @@ export default function init() {
                 <input type="text" name="name" />
                 <button>Select</button>
             </form>
+            <Link to={'/chat'}>Link</Link>
         </>
     )
 }
