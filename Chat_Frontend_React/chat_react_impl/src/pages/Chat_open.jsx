@@ -1,9 +1,6 @@
 import '../assets/chat.css'
-import { io } from 'socket.io-client'
-
-const socket = io("http://localhost:4000", {
-    // autoConnect:false
-})
+import socket from '../libs/socket';
+import { useUserContext } from '../context/user.context'
 
 socket.on('chat message', function (msg) {
     const messages = document.getElementById('messages')
@@ -13,6 +10,7 @@ socket.on('chat message', function (msg) {
     messages.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
 });
+
 function sendMessage(e) {
     e.preventDefault()
     if (e.target.message?.value) {
@@ -21,10 +19,20 @@ function sendMessage(e) {
     }
 }
 export default function Chat_open() {
-
+    const {setUserData} = useUserContext()
+    socket.on("connect_error", (err) => {
+        if (err.message === "invalid username") {
+          setUserData({
+            usernameAlreadySelected :false
+          })
+          console.log("ERROR CONENLASN")
+    
+        }
+      });
     return (
 
         <section>
+            {/* <button onClick={destroyed}>x</button> */}
             <div className='chat'>
                 <ul id='messages'></ul>
             </div>

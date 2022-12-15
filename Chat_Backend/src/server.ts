@@ -10,6 +10,14 @@ const io = new Server(server, {
 })
 
 
+io.use((socket, next) => {
+    const username = socket.handshake.auth.username;
+    if (!username) {
+        return next(new Error("invalid username"));
+    }
+    (socket as any).username = username;
+    next();
+});
 
 io.on('connection', (socket) => {
     console.log('a user connected')
@@ -22,6 +30,7 @@ io.on('connection', (socket) => {
         io.emit('chat message', msg);
     });
 })
+
 
 server.listen(process.env.PORT, () => {
     console.log("- [Server] :  Listen on Port " + process.env.PORT)
